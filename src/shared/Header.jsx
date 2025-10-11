@@ -9,10 +9,10 @@ function Header({ title }) {
         <NavLink to="/" className="home">
           Home
         </NavLink>
-        <NavLink to="plants" className="allplants">
+        <NavLink to="/plants" className="allplants">
           MyPlants
         </NavLink>
-        <NavLink to="newplant" className="newplant">
+        <NavLink to="/newplant" className="newplant">
           NewPlant
         </NavLink>
         <NavLink to="/about" className="about">

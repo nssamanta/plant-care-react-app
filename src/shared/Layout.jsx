@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation, Outlet } from 'react-router-dom';
+import { useLocation, Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import Header from './Header';
@@ -10,6 +10,12 @@ function Layout() {
     switch (location.pathname) {
       case '/':
         setPageTitle('Plant Care');
+        break;
+      case '/plants':
+        setPageTitle('My Plants');
+        break;
+      case '/newplant':
+        setPageTitle('Add A New Plant');
         break;
       case '/about':
         setPageTitle('About');
