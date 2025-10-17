@@ -10,6 +10,11 @@ import PlantDetails from './pages/PlantDetails';
 import Layout from './shared/Layout';
 
 function App() {
+  console.log('Using Token:', import.meta.env.VITE_PAT);
+  console.log(
+    'Using URL:',
+    `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`
+  );
   const [plants, setPlants] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,18 +22,18 @@ function App() {
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
-  //common headers
+
   const commonHeaders = {
     Authorization: token,
     'Content-Type': 'application/json',
   };
-  //common fetch options pattern
+
   const createFetchOptions = (method, payload = null) => ({
     method,
     headers: commonHeaders,
     ...(payload && { body: JSON.stringify(payload) }),
   });
-  //payload builder function
+
   const createPlantPayload = (plant, includeId = false) => ({
     records: [
       {
@@ -42,7 +47,7 @@ function App() {
       },
     ],
   });
-  //Todo transformer function
+
   const transformAirtableRecord = record => {
     const plant = {
       id: record.id,
@@ -50,7 +55,7 @@ function App() {
     };
     return plant;
   };
-  //error handling helper
+
   const handleApiError = async response => {
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
@@ -65,14 +70,14 @@ function App() {
   useEffect(() => {
     const fetchPlants = async () => {
       setIsLoading(true);
-      const options = createFetchOptions('GET'); //tells fetch this is a GET request with authentication
+      const options = createFetchOptions('GET'); 
       try {
-        const resp = await fetch(url, options); //makes api call and waits for response
+        const resp = await fetch(url, options); 
         await handleApiError(resp);
         const { records } = await resp.json();
         const transformedPlants = records.map(transformAirtableRecord);
         setPlants(transformedPlants);
-      } catch (error) {
+      } catch (e) {
         setError(e.message);
       }
       setIsLoading(false);
@@ -88,11 +93,11 @@ function App() {
       await handleApiError(resp);
       const { records } = await resp.json();
       const newPlant = transformAirtableRecord(records[0]);
-      // Add the new plant to our existing state
+
       setPlants(prevPlants => [newPlant, ...prevPlants]);
     } catch (e) {
       setError(e.message);
-      throw e; // Re-throw error to handle it in the form
+      throw e; 
     }
   };
 
@@ -101,8 +106,16 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="plants" element={<AllPlants plants={plants} isLoading={isLoading} error={error}/>} />
-          <Route path="plants/new" element={<NewPlantForm onAddPlant={addPlant} />} />
+          <Route
+            path="plants"
+            element={
+              <AllPlants plants={plants} isLoading={isLoading} error={error} />
+            }
+          />
+          <Route
+            path="plants/new"
+            element={<NewPlantForm onAddPlant={addPlant} />}
+          />
           <Route path="plants/:plantId" element={<PlantDetails />} />
           <Route path="about" element={<About />} />
           <Route path="*" element={<NotFound />} />
