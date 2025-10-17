@@ -1,18 +1,31 @@
-function AllPlants({title}) {
-  const plants = [
-    { id: 1, title: 'Aloe', lastWatered: '2025-10-10' },
-    { id: 2, title: 'String of Pearls', lastWatered: '2025-10-10' },
-    { id: 3, title: 'Cactus', lastWatered: '2025-10-10' },
-  ];
+import React from 'react';
+import PlantCard from '../shared/PlantCard';
+
+function AllPlants({ plants, isLoading, error }) {
+  if (isLoading) {
+    return <p>Loading plants...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
   return (
-    <>
-      <ul>
-        <h2>{title}</h2>
+    <div>
+     <h2>My Plant Collection</h2>
+     {plants.length === 0 ? (
+     <p>No plants yet. Time to add your first one!</p>
+     ) : (
+      <div className="plantGrid">
         {plants.map(plant => (
-          <li key={plant.id}>{plant.title}</li>
+          <PlantCard
+          key={plant.id}
+          plant={plant}
+          />
         ))}
-      </ul>
-    </>
+      </div>
+     )}
+    </div>
   );
 }
 export default AllPlants;
