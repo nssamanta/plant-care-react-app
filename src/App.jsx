@@ -113,7 +113,7 @@ function App() {
             }
           />
           <Route
-            path="plants/new"
+            path="newplant"
             element={<NewPlantForm onAddPlant={addPlant} />}
           />
           <Route path="plants/:plantId" element={<PlantDetails />} />

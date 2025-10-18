@@ -7,21 +7,27 @@ function Layout() {
   const [pageTitle, setPageTitle] = useState('Todo List');
 
   useEffect(() => {
-    switch (location.pathname) {
-      case '/':
-        setPageTitle('Plant Care');
-        break;
-      case '/plants':
-        setPageTitle('My Plants');
-        break;
-      case '/newplant':
-        setPageTitle('Add A New Plant');
-        break;
-      case '/about':
-        setPageTitle('About');
-        break;
-      default:
-        setPageTitle('Not Found');
+    const path = location.pathname;
+
+    if (path.startsWith('/plants/')) {
+      setPageTitle('Plant Details');
+    } else {
+      switch (path) {
+        case '/':
+          setPageTitle('Plant Care');
+          break;
+        case '/plants':
+          setPageTitle('My Plant Collection');
+          break;
+        case '/newplant':
+          setPageTitle('Add A New Plant');
+          break;
+        case '/about':
+          setPageTitle('About');
+          break;
+        default:
+          setPageTitle('Not Found');
+      }
     }
   }, [location]);
   return (
