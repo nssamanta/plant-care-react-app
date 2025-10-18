@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 function getWateringStatus(lastWatered, frequency) {
   if (!lastWatered || !frequency) {
@@ -27,9 +27,9 @@ function getWateringStatus(lastWatered, frequency) {
   }
 }
 
-function PlantDetails() {
+function PlantDetails({ onDeletePlant }) {
   const { plantId } = useParams();
-
+const navigate = useNavigate();
   const [plant, setPlant] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -114,12 +114,23 @@ function PlantDetails() {
       setError(e.message);
     }
   };
+
+  const handleDelete = async () => {
+    try {
+        await onDeletePlant(plantId);
+        navigate('/plants')
+    } catch (e) {
+        console.error("Failed to delete plant:", e);
+    }
+  }
   if (isLoading) {
     return <p>Loading plant details...</p>;
   }
-
   if (error) {
     return <p>Error: {error}</p>;
+  }
+  if (!plant) {
+    return <p>Plant not found.</p>
   }
 
   const status = getWateringStatus(plant.lastWatered, plant.wateringFrequency);
@@ -140,6 +151,7 @@ function PlantDetails() {
       <p>{plant?.notes || 'No notes for this plant.'}</p>
       <p>{status}</p>
       <button onClick={handleWatering}>I Watered This Plant! 💧</button>
+      <button onClick={handleDelete}>Delete Plant</button>
     </div>
   );
 }

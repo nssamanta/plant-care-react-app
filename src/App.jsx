@@ -101,6 +101,20 @@ function App() {
     }
   };
 
+  const deletePlant = async (plantId) => {
+    const deleteUrl = `${url}/${plantId}`
+    const options = createFetchOptions('DELETE');
+
+    try {
+      const resp = await fetch(deleteUrl, options);
+      await handleApiError(resp);
+      setPlants(prevPlants => prevPlants.filter(plant => plant.id !== plantId));
+    } catch (e) {
+      setError(e.message);
+      throw e;
+    }
+  }
+
   return (
     <div>
       <Routes>
@@ -116,7 +130,7 @@ function App() {
             path="newplant"
             element={<NewPlantForm onAddPlant={addPlant} />}
           />
-          <Route path="plants/:plantId" element={<PlantDetails />} />
+          <Route path="plants/:plantId" element={<PlantDetails onDeletePlant={deletePlant}/>} />
           <Route path="about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Route>
