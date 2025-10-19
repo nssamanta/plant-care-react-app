@@ -19,6 +19,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
@@ -115,6 +116,35 @@ function App() {
     }
   }
 
+ const updatePlant = async (plantId, updateFields) => {
+  const payload = {
+    records: [
+      {
+        id: plantId,
+        fields: updateFields
+      }
+    ]
+  };
+  const options = createFetchOptions('PATCH', payload);
+  try {
+    const resp = await fetch(url, options);
+    await handleApiError(resp);
+    const { records } = await resp.json();
+    const updatedPlant = transformAirtableRecord(records[0]);
+
+    setPlants(prevPlants => 
+      prevPlants.map(plant => 
+        plant.id === updatedPlant.id ? updatedPlant : plant
+      )
+    );
+    return updatedPlant;
+
+  } catch (e) {
+    setError(e.message);
+    throw e;
+ };
+};
+
   return (
     <div>
       <Routes>
@@ -130,7 +160,7 @@ function App() {
             path="newplant"
             element={<NewPlantForm onAddPlant={addPlant} />}
           />
-          <Route path="plants/:plantId" element={<PlantDetails onDeletePlant={deletePlant}/>} />
+          <Route path="plants/:plantId" element={<PlantDetails onDeletePlant={deletePlant} onUpdatePlant={updatePlant}/>} />
           <Route path="about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Route>

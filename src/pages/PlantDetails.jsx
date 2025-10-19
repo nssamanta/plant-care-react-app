@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 function getWateringStatus(lastWatered, frequency) {
@@ -27,14 +27,15 @@ function getWateringStatus(lastWatered, frequency) {
   }
 }
 
-function PlantDetails({ onDeletePlant }) {
+function PlantDetails({ onDeletePlant, onUpdatePlant }) {
   const { plantId } = useParams();
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const [plant, setPlant] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  
+  const [editingField, setEditingField] = useState(null); 
+  const [editValue, setEditValue] = useState('');
 
   useEffect(() => {
     const fetchSinglePlant = async () => {
@@ -72,6 +73,34 @@ const navigate = useNavigate();
     };
     fetchSinglePlant();
   }, [plantId]);
+
+  const handleEditClick = (field, currentValue) => {
+    setEditingField(field);
+    setEditValue(currentValue);
+  };
+
+  const handleCancel = () => {
+    setEditingField(null);
+    setEditValue('');
+  };
+
+  const handleUpdate = async () => {
+    const updatedFields = {
+      [editingField]: editValue
+    };
+
+    if (editingField === 'wateringFrequency') {
+      updatedFields[editingField] = parseInt(editValue, 10);
+    }
+
+    try {
+      const updatedPlant = await onUpdatePlant(plantId, updatedFields);
+      setPlant(updatedPlant);
+      handleCancel();
+    } catch (error) {
+      console.error('Failed to update:', error);
+    }
+  };
 
   const handleWatering = async () => {
     const today = new Date();
@@ -117,12 +146,13 @@ const navigate = useNavigate();
 
   const handleDelete = async () => {
     try {
-        await onDeletePlant(plantId);
-        navigate('/plants')
+      await onDeletePlant(plantId);
+      navigate('/plants');
     } catch (e) {
-        console.error("Failed to delete plant:", e);
+      console.error('Failed to delete plant:', e);
     }
-  }
+  };
+
   if (isLoading) {
     return <p>Loading plant details...</p>;
   }
@@ -130,25 +160,89 @@ const navigate = useNavigate();
     return <p>Error: {error}</p>;
   }
   if (!plant) {
-    return <p>Plant not found.</p>
+    return <p>Plant not found.</p>;
   }
 
   const status = getWateringStatus(plant.lastWatered, plant.wateringFrequency);
 
   return (
     <div>
-      <h2>{plant?.name}</h2>
+      <h2>
+        {editingField === 'name' ? (
+          <div>
+            <input
+              type="text"
+              value={editValue}
+              onChange={e => setEditValue(e.target.value)}
+            />
+            <button onClick={handleUpdate}>Update</button>
+            <button onClick={handleCancel}>Cancel</button>
+          </div>
+        ) : (
+          <span onClick={() => handleEditClick('name', plant.name)}>
+            {plant.name} 
+          </span>
+        )}
+      </h2>
       <p>
-        <strong>Watering Frequency:</strong>Water every{' '}
-        {plant?.wateringFrequency} days.
+        <strong>Watering Frequency:</strong>
+        {editingField === 'wateringFrequency' ? (
+          <div>
+            <input
+              type="number"
+              value={editValue}
+              onChange={e => setEditValue(e.target.value)}
+            />
+            <button onClick={handleUpdate}>Update</button>
+            <button onClick={handleCancel}>Cancel</button>
+          </div>
+        ) : (
+          <span
+            onClick={() =>
+              handleEditClick('wateringFrequency', plant.wateringFrequency)
+            }
+          >
+            Water every {plant.wateringFrequency} days. 
+          </span>
+        )}
       </p>
       <p>
-        <strong>Last Watered On:</strong> {plant?.lastWatered}
+        <strong>Last Watered On:</strong>
+        {editingField === 'lastWatered' ? (
+          <div>
+            <input
+              type="date"
+              value={editValue}
+              onChange={e => setEditValue(e.target.value)}
+            />
+            <button onClick={handleUpdate}>Update</button>
+            <button onClick={handleCancel}>Cancel</button>
+          </div>
+        ) : (
+          <span
+            onClick={() => handleEditClick('lastWatered', plant.lastWatered)}
+          >
+            {plant.lastWatered} 
+          </span>
+        )}
       </p>
       <p>
         <strong>Notes:</strong>
       </p>
-      <p>{plant?.notes || 'No notes for this plant.'}</p>
+      {editingField === 'notes' ? (
+        <div>
+          <textarea
+            value={editValue}
+            onChange={e => setEditValue(e.target.value)}
+          />
+          <button onClick={handleUpdate}>Update</button>
+          <button onClick={handleCancel}>Cancel</button>
+        </div>
+      ) : (
+        <p onClick={() => handleEditClick('notes', plant.notes)}>
+          {plant.notes || 'No notes for this plant.'} 
+        </p>
+      )}
       <p>{status}</p>
       <button onClick={handleWatering}>I Watered This Plant! 💧</button>
       <button onClick={handleDelete}>Delete Plant</button>
