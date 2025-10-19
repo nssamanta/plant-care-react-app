@@ -4,7 +4,6 @@ import { Routes, Route } from 'react-router-dom';
 import About from './pages/About';
 import AllPlants from './pages/AllPlants';
 import Home from './pages/Home';
-import NewPlantForm from './pages/NewPlantForm';
 import NotFound from './pages/NotFound';
 import PlantDetails from './pages/PlantDetails';
 import Layout from './shared/Layout';
@@ -19,10 +18,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
-
 
   const commonHeaders = {
     Authorization: token,
@@ -71,15 +68,15 @@ function App() {
   useEffect(() => {
     const fetchPlants = async () => {
       setIsLoading(true);
-      const options = createFetchOptions('GET'); 
+      const options = createFetchOptions('GET');
       try {
-        const resp = await fetch(url, options); 
+        const resp = await fetch(url, options);
         await handleApiError(resp);
         const { records } = await resp.json();
         const transformedPlants = records.map(transformAirtableRecord);
         setPlants(transformedPlants);
-      } catch (e) {
-        setError(e.message);
+      } catch (error) {
+        setError(error.message);
       }
       setIsLoading(false);
     };
@@ -96,60 +93,59 @@ function App() {
       const newPlant = transformAirtableRecord(records[0]);
 
       setPlants(prevPlants => [newPlant, ...prevPlants]);
-    } catch (e) {
-      setError(e.message);
-      throw e; 
+    } catch (error) {
+      setError(error.message);
+      throw error;
     }
   };
 
-  const deletePlant = async (plantId) => {
-    const deleteUrl = `${url}/${plantId}`
+  const deletePlant = async plantId => {
+    const deleteUrl = `${url}/${plantId}`;
     const options = createFetchOptions('DELETE');
 
     try {
       const resp = await fetch(deleteUrl, options);
       await handleApiError(resp);
       setPlants(prevPlants => prevPlants.filter(plant => plant.id !== plantId));
-    } catch (e) {
-      setError(e.message);
-      throw e;
+    } catch (error) {
+      setError(error.message);
+      throw error;
     }
-  }
-
- const updatePlant = async (plantId, updateFields) => {
-  const payload = {
-    records: [
-      {
-        id: plantId,
-        fields: updateFields
-      }
-    ]
   };
-  const options = createFetchOptions('PATCH', payload);
-  try {
-    const resp = await fetch(url, options);
-    await handleApiError(resp);
-    const { records } = await resp.json();
-    const updatedPlant = transformAirtableRecord(records[0]);
 
-    setPlants(prevPlants => 
-      prevPlants.map(plant => 
-        plant.id === updatedPlant.id ? updatedPlant : plant
-      )
-    );
-    return updatedPlant;
+  const updatePlant = async (plantId, updateFields) => {
+    const payload = {
+      records: [
+        {
+          id: plantId,
+          fields: updateFields,
+        },
+      ],
+    };
+    const options = createFetchOptions('PATCH', payload);
+    try {
+      const resp = await fetch(url, options);
+      await handleApiError(resp);
+      const { records } = await resp.json();
+      const updatedPlant = transformAirtableRecord(records[0]);
 
-  } catch (e) {
-    setError(e.message);
-    throw e;
- };
-};
+      setPlants(prevPlants =>
+        prevPlants.map(plant =>
+          plant.id === updatedPlant.id ? updatedPlant : plant
+        )
+      );
+      return updatedPlant;
+    } catch (error) {
+      setError(error.message);
+      throw error;
+    }
+  };
 
   return (
     <div>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Home onAddPlant={addPlant} />} />
           <Route
             path="plants"
             element={
@@ -157,10 +153,14 @@ function App() {
             }
           />
           <Route
-            path="newplant"
-            element={<NewPlantForm onAddPlant={addPlant} />}
+            path="plants/:plantId"
+            element={
+              <PlantDetails
+                onDeletePlant={deletePlant}
+                onUpdatePlant={updatePlant}
+              />
+            }
           />
-          <Route path="plants/:plantId" element={<PlantDetails onDeletePlant={deletePlant} onUpdatePlant={updatePlant}/>} />
           <Route path="about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Route>

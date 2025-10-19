@@ -19,9 +19,6 @@ function Layout() {
         case '/plants':
           setPageTitle('My Plant Collection');
           break;
-        case '/newplant':
-          setPageTitle('Add A New Plant');
-          break;
         case '/about':
           setPageTitle('About');
           break;

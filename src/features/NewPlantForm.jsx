@@ -14,7 +14,6 @@ function NewPlantForm({ onAddPlant }) {
     event.preventDefault();
     setIsSaving(true);
 
-
     const newPlant = {
       name: name,
       wateringFrequency: parseInt(wateringFrequency, 10),
@@ -59,7 +58,7 @@ function NewPlantForm({ onAddPlant }) {
           <label htmlFor="lastWatered">Last Watered Date</label>
           <input
             id="lastWatered"
-            type="date" 
+            type="date"
             value={lastWatered}
             onChange={e => setLastWatered(e.target.value)}
           />

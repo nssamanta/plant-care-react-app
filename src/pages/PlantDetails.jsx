@@ -34,7 +34,7 @@ function PlantDetails({ onDeletePlant, onUpdatePlant }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [editingField, setEditingField] = useState(null); 
+  const [editingField, setEditingField] = useState(null);
   const [editValue, setEditValue] = useState('');
 
   useEffect(() => {
@@ -66,8 +66,8 @@ function PlantDetails({ onDeletePlant, onUpdatePlant }) {
           ...record.fields,
         });
         setPlant(transformAirtableRecord(data));
-      } catch (e) {
-        setError(e.message);
+      } catch (error) {
+        setError(error.message);
       }
       setIsLoading(false);
     };
@@ -86,7 +86,7 @@ function PlantDetails({ onDeletePlant, onUpdatePlant }) {
 
   const handleUpdate = async () => {
     const updatedFields = {
-      [editingField]: editValue
+      [editingField]: editValue,
     };
 
     if (editingField === 'wateringFrequency') {
@@ -139,8 +139,8 @@ function PlantDetails({ onDeletePlant, onUpdatePlant }) {
         ...prevPlant,
         lastWatered: todayString,
       }));
-    } catch (e) {
-      setError(e.message);
+    } catch (error) {
+      setError(error.message);
     }
   };
 
@@ -148,8 +148,8 @@ function PlantDetails({ onDeletePlant, onUpdatePlant }) {
     try {
       await onDeletePlant(plantId);
       navigate('/plants');
-    } catch (e) {
-      console.error('Failed to delete plant:', e);
+    } catch (error) {
+      console.error('Failed to delete plant:', error);
     }
   };
 
@@ -180,7 +180,7 @@ function PlantDetails({ onDeletePlant, onUpdatePlant }) {
           </div>
         ) : (
           <span onClick={() => handleEditClick('name', plant.name)}>
-            {plant.name} 
+            {plant.name}
           </span>
         )}
       </h2>
@@ -202,7 +202,7 @@ function PlantDetails({ onDeletePlant, onUpdatePlant }) {
               handleEditClick('wateringFrequency', plant.wateringFrequency)
             }
           >
-            Water every {plant.wateringFrequency} days. 
+            Water every {plant.wateringFrequency} days.
           </span>
         )}
       </p>
@@ -222,7 +222,7 @@ function PlantDetails({ onDeletePlant, onUpdatePlant }) {
           <span
             onClick={() => handleEditClick('lastWatered', plant.lastWatered)}
           >
-            {plant.lastWatered} 
+            {plant.lastWatered}
           </span>
         )}
       </p>
@@ -240,7 +240,7 @@ function PlantDetails({ onDeletePlant, onUpdatePlant }) {
         </div>
       ) : (
         <p onClick={() => handleEditClick('notes', plant.notes)}>
-          {plant.notes || 'No notes for this plant.'} 
+          {plant.notes || 'No notes for this plant.'}
         </p>
       )}
       <p>{status}</p>

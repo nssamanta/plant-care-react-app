@@ -12,9 +12,6 @@ function Header({ title }) {
         <NavLink to="/plants" className="allplants">
           MyPlants
         </NavLink>
-        <NavLink to="/newplant" className="newplant">
-          NewPlant
-        </NavLink>
         <NavLink to="/about" className="about">
           About
         </NavLink>
