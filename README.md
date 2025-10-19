@@ -46,17 +46,14 @@ npm install
 
 4. **Get Your Credentials:**
 
-Base ID: Find this on your base's [API documentation page](https://airtable.com/developers/web/api/introduction). It starts with app....
+- Base ID: Find this on your base's [API documentation page](https://airtable.com/developers/web/api/introduction). It starts with app....
 
-Table Name: This will be Plants (or whatever you named it).
+- Table Name: This will be Plants (or whatever you named it).
 
-Personal Access Token: Create a new token on your [Airtable developer hub](https://airtable.com/create/tokens). Ensure it has the following scopes:
+- Personal Access Token: Create a new token on your [Airtable developer hub](https://airtable.com/create/tokens). Ensure it has the following scopes and that it has Access to your new Plant Care base:
+  - data.records:read
 
-data.records:read
-
-data.records:write
-
-And ensure it has Access to your new Plant Care base.
+  - data.records:write
 
 5. **Update .env.local:** Add your credentials to the .env.local file.
 
