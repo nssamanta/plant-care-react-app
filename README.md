@@ -2,7 +2,7 @@
 
 React final project application created for the Summer Kiwi React Class 2025.
 
-This app allows users to track the watering needs of their house plants. Users can include information such as the name, watering frequency, last day watered, and notes. Users can add, edit, and delete plants from their collection. The app automatically calculates the next watering day and displays a status to alert users when a plant is due or overdue for watering.
+This app allows users to track the watering needs of their house plants. Users can include information such as the name, watering frequency, last day watered, and notes. Users can add, edit, and delete plants from their collection. Users can search through their plant collection and filter by name or date created. The app automatically calculates the next watering day and displays a status to alert users when a plant is due or overdue for watering.
 
 ---
 
@@ -43,6 +43,7 @@ npm install
 | wateringFrequency | Number (Integer)    |
 | lastWatered       | Date                |
 | notes             | Long text           |
+| createdTime       | Created time        |
 
 4. **Get Your Credentials:**
 
