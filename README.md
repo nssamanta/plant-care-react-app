@@ -8,6 +8,9 @@ This app allows users to track the watering needs of their house plants. Users c
 
 ## Installation instructions:
 
+**Main Dependencies**
+- react, react-dom, react-router-dom
+
 **Prerequisites**
 
 - [Node.js](https://nodejs.org/) and npm installed on your machine.

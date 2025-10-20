@@ -28,16 +28,22 @@ function App() {
     return encodeURI(`${url}?${sortQuery}${searchQuery}`);
   }, [sortDirection, sortField, queryString, url]);
 
-  const commonHeaders = useMemo(() => ({
-    Authorization: token,
-    'Content-Type': 'application/json',
-  }), [token]);
+  const commonHeaders = useMemo(
+    () => ({
+      Authorization: token,
+      'Content-Type': 'application/json',
+    }),
+    [token]
+  );
 
-  const createFetchOptions = useCallback((method, payload = null) => ({
-    method,
-    headers: commonHeaders,
-    ...(payload && { body: JSON.stringify(payload) }),
-  }),[commonHeaders]);
+  const createFetchOptions = useCallback(
+    (method, payload = null) => ({
+      method,
+      headers: commonHeaders,
+      ...(payload && { body: JSON.stringify(payload) }),
+    }),
+    [commonHeaders]
+  );
 
   const createPlantPayload = (plant, includeId = false) => ({
     records: [
@@ -73,6 +79,8 @@ function App() {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchPlants = async () => {
       setIsLoading(true);
       const options = createFetchOptions('GET');
@@ -88,6 +96,9 @@ function App() {
       setIsLoading(false);
     };
     fetchPlants();
+    return () => {
+      controller.abort();
+    };
   }, [encodeUrl, createFetchOptions]);
 
   const addPlant = async newPlantData => {
