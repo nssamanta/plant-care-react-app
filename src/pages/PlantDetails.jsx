@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
+
 function getWateringStatus(lastWatered, frequency) {
   if (!lastWatered || !frequency) {
     return 'Unknown';
@@ -27,7 +28,11 @@ function getWateringStatus(lastWatered, frequency) {
   }
 }
 
-function PlantDetails({ onDeletePlant, onUpdatePlant }) {
+function PlantDetails({
+  onDeletePlant,
+  onUpdatePlant,
+
+}) {
   const { plantId } = useParams();
   const navigate = useNavigate();
   const [plant, setPlant] = useState(null);
@@ -167,6 +172,7 @@ function PlantDetails({ onDeletePlant, onUpdatePlant }) {
 
   return (
     <div>
+    
       <h2>
         {editingField === 'name' ? (
           <div>

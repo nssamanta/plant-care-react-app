@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import About from './pages/About';
@@ -9,28 +9,35 @@ import PlantDetails from './pages/PlantDetails';
 import Layout from './shared/Layout';
 
 function App() {
-  console.log('Using Token:', import.meta.env.VITE_PAT);
-  console.log(
-    'Using URL:',
-    `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`
-  );
   const [plants, setPlants] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sortField, setSortField] = useState('createdTime');
+  const [sortDirection, setSortDirection] = useState('desc');
+  const [queryString, setQueryString] = useState('');
 
   const url = `https://api.airtable.com/v0/${import.meta.env.VITE_BASE_ID}/${import.meta.env.VITE_TABLE_NAME}`;
   const token = `Bearer ${import.meta.env.VITE_PAT}`;
 
-  const commonHeaders = {
+  const encodeUrl = useCallback(() => {
+    let sortQuery = `sort[0][field]=${sortField}&sort[0][direction]=${sortDirection}`;
+    let searchQuery = '';
+    if (queryString) {
+      searchQuery = `&filterByFormula=SEARCH(LOWER("${queryString}"), LOWER({name}))`;
+    }
+    return encodeURI(`${url}?${sortQuery}${searchQuery}`);
+  }, [sortDirection, sortField, queryString, url]);
+
+  const commonHeaders = useMemo(() => ({
     Authorization: token,
     'Content-Type': 'application/json',
-  };
+  }), [token]);
 
-  const createFetchOptions = (method, payload = null) => ({
+  const createFetchOptions = useCallback((method, payload = null) => ({
     method,
     headers: commonHeaders,
     ...(payload && { body: JSON.stringify(payload) }),
-  });
+  }),[commonHeaders]);
 
   const createPlantPayload = (plant, includeId = false) => ({
     records: [
@@ -70,7 +77,7 @@ function App() {
       setIsLoading(true);
       const options = createFetchOptions('GET');
       try {
-        const resp = await fetch(url, options);
+        const resp = await fetch(encodeUrl(), options);
         await handleApiError(resp);
         const { records } = await resp.json();
         const transformedPlants = records.map(transformAirtableRecord);
@@ -81,7 +88,7 @@ function App() {
       setIsLoading(false);
     };
     fetchPlants();
-  }, []);
+  }, [encodeUrl, createFetchOptions]);
 
   const addPlant = async newPlantData => {
     const payload = createPlantPayload(newPlantData);
@@ -149,7 +156,17 @@ function App() {
           <Route
             path="plants"
             element={
-              <AllPlants plants={plants} isLoading={isLoading} error={error} />
+              <AllPlants
+                plants={plants}
+                isLoading={isLoading}
+                error={error}
+                sortDirection={sortDirection}
+                setSortDirection={setSortDirection}
+                sortField={sortField}
+                setSortField={setSortField}
+                queryString={queryString}
+                setQueryString={setQueryString}
+              />
             }
           />
           <Route
