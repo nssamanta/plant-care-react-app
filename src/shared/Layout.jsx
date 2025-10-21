@@ -1,5 +1,6 @@
 import { useLocation, Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import styles from './Layout.module.css';
 
 import Header from './Header';
 function Layout() {
@@ -28,9 +29,9 @@ function Layout() {
     }
   }, [location]);
   return (
-    <div className="app-wrapper">
+    <div className="appWrapper">
       <Header title={pageTitle} />
-      <main className="page-content">
+      <main className={styles.contentWrapper}>
         <Outlet />
       </main>
     </div>

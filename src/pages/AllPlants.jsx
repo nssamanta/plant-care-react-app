@@ -2,6 +2,7 @@ import PlantCard from '../shared/PlantCard';
 import PlantsViewForm from '../features/PlantsViewForm';
 import styles from './AllPlants.module.css';
 
+
 function AllPlants({
   plants,
   isLoading,
@@ -14,7 +15,7 @@ function AllPlants({
   setQueryString,
 }) {
   return (
-    <div className={styles.pageWrapper}>
+    <div className="pageWrapper">
       <PlantsViewForm
         sortDirection={sortDirection}
         setSortDirection={setSortDirection}
