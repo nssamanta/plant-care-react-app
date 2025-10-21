@@ -1,0 +1,62 @@
+.detailsWrapper {
+  max-width: 650px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.status {
+  font-weight: bolder;
+  margin-top: 0.1rem;
+  margin-bottom: 1rem;
+  font-style: oblique;
+  text-decoration: underline #2a9d8f;
+}
+
+.detailItem {
+  margin-bottom: 1rem;
+}
+
+.detailItem strong {
+  display: block;
+  color: var(--primary-color);
+  font-family: var(--heading-font);
+  margin-bottom: 0.25rem;
+}
+
+.actionButtons {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+  display: flex;
+  gap: 1rem;
+}
+
+.displayWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  min-height: 2.5rem;
+  padding: 0.25rem 0.5rem;
+  margin-left: -0.5rem;
+}
+
+.displayWrapper:hover {
+  background-color: #f7f7f7;
+}
+
+.editWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.editWrapper input,
+.editWrapper textarea {
+  flex-grow: 1;
+  width: auto;
+}
