@@ -20,7 +20,7 @@ function getWateringStatus(lastWatered, frequency) {
   if (daysDifference > 1) {
     return `Water in ${daysDifference} days.`;
   } else if (daysDifference === 1) {
-    return 'Water tommorow.';
+    return 'Water tomorrow.';
   } else if (daysDifference === 0) {
     return 'Water Today! 💧';
   } else {
