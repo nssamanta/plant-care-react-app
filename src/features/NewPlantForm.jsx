@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from './NewPlantForm.module.css';
 
 function NewPlantForm({ onAddPlant }) {
   const navigate = useNavigate();
@@ -33,8 +34,8 @@ function NewPlantForm({ onAddPlant }) {
   return (
     <div>
       <h2>Add a New Plant</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formGroup}>
           <label htmlFor="name">Plant Name</label>
           <input
             id="name"
@@ -44,7 +45,7 @@ function NewPlantForm({ onAddPlant }) {
           />
         </div>
 
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="wateringFrequency">Water every (days)</label>
           <input
             id="wateringFrequency"
@@ -54,7 +55,7 @@ function NewPlantForm({ onAddPlant }) {
           />
         </div>
 
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="lastWatered">Last Watered Date</label>
           <input
             id="lastWatered"
@@ -64,7 +65,7 @@ function NewPlantForm({ onAddPlant }) {
           />
         </div>
 
-        <div>
+        <div className={styles.formGroup}>
           <label htmlFor="notes">Notes (Optional)</label>
           <textarea
             id="notes"
@@ -73,7 +74,11 @@ function NewPlantForm({ onAddPlant }) {
           />
         </div>
 
-        <button type="submit" disabled={name.trim() === '' || isSaving}>
+        <button
+          type="submit"
+          className="button button-primary"
+          disabled={name.trim() === '' || isSaving}
+        >
           {isSaving ? 'Saving...' : 'Add Plant'}
         </button>
       </form>

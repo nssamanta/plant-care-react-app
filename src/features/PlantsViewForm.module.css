@@ -1,0 +1,27 @@
+.formRow {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 1rem;
+  align-items: center;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.formSection {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.formSection label {
+  font-weight: bold;
+  white-space: nowrap; 
+}
+
+.formRow input,
+.formRow select {
+  width: auto; 
+  padding: 0.5rem;
+}
