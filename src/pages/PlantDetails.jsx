@@ -241,7 +241,9 @@ function PlantDetails({ onDeletePlant, onUpdatePlant }) {
             onClick={() => handleEditClick('lastWatered', plant.lastWatered)}
             className={styles.displayWrapper}
           >
-            {plant.lastWatered}
+            {new Date(plant.lastWatered.replace(/-/g, '/')).toLocaleDateString(
+              'en-US'
+            )}
           </span>
         )}
       </div>
