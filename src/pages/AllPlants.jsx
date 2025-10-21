@@ -2,7 +2,6 @@ import PlantCard from '../shared/PlantCard';
 import PlantsViewForm from '../features/PlantsViewForm';
 import styles from './AllPlants.module.css';
 
-
 function AllPlants({
   plants,
   isLoading,

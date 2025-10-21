@@ -34,7 +34,6 @@ function PlantDetails({ onDeletePlant, onUpdatePlant }) {
   const [plant, setPlant] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [editingField, setEditingField] = useState(null);
   const [editValue, setEditValue] = useState('');
 
