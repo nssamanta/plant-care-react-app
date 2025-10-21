@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
+import styles from './PlantDetails.module.css';
 
 function getWateringStatus(lastWatered, frequency) {
   if (!lastWatered || !frequency) {
@@ -18,9 +18,9 @@ function getWateringStatus(lastWatered, frequency) {
   const daysDifference = Math.round((nextWateringDate - today) / msPerDay);
 
   if (daysDifference > 1) {
-    return `Water in ${daysDifference} days`;
+    return `Water in ${daysDifference} days.`;
   } else if (daysDifference === 1) {
-    return 'Water tommorow';
+    return 'Water tommorow.';
   } else if (daysDifference === 0) {
     return 'Water Today! 💧';
   } else {
@@ -28,11 +28,7 @@ function getWateringStatus(lastWatered, frequency) {
   }
 }
 
-function PlantDetails({
-  onDeletePlant,
-  onUpdatePlant,
-
-}) {
+function PlantDetails({ onDeletePlant, onUpdatePlant }) {
   const { plantId } = useParams();
   const navigate = useNavigate();
   const [plant, setPlant] = useState(null);
@@ -171,87 +167,120 @@ function PlantDetails({
   const status = getWateringStatus(plant.lastWatered, plant.wateringFrequency);
 
   return (
-    <div>
-    
+    <div className={styles.detailsWrapper}>
       <h2>
         {editingField === 'name' ? (
-          <div>
+          <div className={styles.editWrapper}>
             <input
               type="text"
               value={editValue}
               onChange={e => setEditValue(e.target.value)}
             />
-            <button onClick={handleUpdate}>Update</button>
-            <button onClick={handleCancel}>Cancel</button>
+            <button onClick={handleUpdate} className="button button-primary">
+              Update
+            </button>
+            <button onClick={handleCancel} className="button button-secondary">
+              Cancel
+            </button>
           </div>
         ) : (
-          <span onClick={() => handleEditClick('name', plant.name)}>
+          <span
+            onClick={() => handleEditClick('name', plant.name)}
+            className={styles.displayWrapper}
+          >
             {plant.name}
           </span>
         )}
       </h2>
-      <p>
-        <strong>Watering Frequency:</strong>
+      <h4 className={styles.status}>{status}</h4>
+      <div className={styles.detailItem}>
+        <strong>Watering Frequency: </strong>
         {editingField === 'wateringFrequency' ? (
-          <div>
+          <div className={styles.editWrapper}>
             <input
               type="number"
               value={editValue}
               onChange={e => setEditValue(e.target.value)}
             />
-            <button onClick={handleUpdate}>Update</button>
-            <button onClick={handleCancel}>Cancel</button>
+            <button onClick={handleUpdate} className="button button-primary">
+              Update
+            </button>
+            <button onClick={handleCancel} className="button button-secondary">
+              Cancel
+            </button>
           </div>
         ) : (
           <span
             onClick={() =>
               handleEditClick('wateringFrequency', plant.wateringFrequency)
             }
+            className={styles.displayWrapper}
           >
             Water every {plant.wateringFrequency} days.
           </span>
         )}
-      </p>
-      <p>
-        <strong>Last Watered On:</strong>
+      </div>
+      <div className={styles.detailItem}>
+        <strong>Last Watered On: </strong>
         {editingField === 'lastWatered' ? (
-          <div>
+          <div className={styles.editWrapper}>
             <input
               type="date"
               value={editValue}
               onChange={e => setEditValue(e.target.value)}
             />
-            <button onClick={handleUpdate}>Update</button>
-            <button onClick={handleCancel}>Cancel</button>
+            <button onClick={handleUpdate} className="button button-primary">
+              Update
+            </button>
+            <button onClick={handleCancel} className="button button-secondary">
+              Cancel
+            </button>
           </div>
         ) : (
           <span
             onClick={() => handleEditClick('lastWatered', plant.lastWatered)}
+            className={styles.displayWrapper}
           >
-            {plant.lastWatered}
+            {new Date(plant.lastWatered.replace(/-/g, '/')).toLocaleDateString(
+              'en-US'
+            )}
           </span>
         )}
-      </p>
-      <p>
-        <strong>Notes:</strong>
-      </p>
-      {editingField === 'notes' ? (
-        <div>
-          <textarea
-            value={editValue}
-            onChange={e => setEditValue(e.target.value)}
-          />
-          <button onClick={handleUpdate}>Update</button>
-          <button onClick={handleCancel}>Cancel</button>
-        </div>
-      ) : (
-        <p onClick={() => handleEditClick('notes', plant.notes)}>
-          {plant.notes || 'No notes for this plant.'}
-        </p>
-      )}
-      <p>{status}</p>
-      <button onClick={handleWatering}>I Watered This Plant! 💧</button>
-      <button onClick={handleDelete}>Delete Plant</button>
+      </div>
+      <div className={styles.detailItem}>
+        <strong>Notes: </strong>
+
+        {editingField === 'notes' ? (
+          <div className={styles.editWrapper}>
+            <textarea
+              value={editValue}
+              onChange={e => setEditValue(e.target.value)}
+            />
+            <button onClick={handleUpdate} className="button button-primary">
+              Update
+            </button>
+            <button onClick={handleCancel} className="button button-secondary">
+              Cancel
+            </button>
+          </div>
+        ) : (
+          <p
+            onClick={() => handleEditClick('notes', plant.notes)}
+            className={styles.displayWrapper}
+          >
+            {plant.notes || 'No notes for this plant.'}
+          </p>
+        )}
+      </div>
+
+      <div className={styles.actionButtons}>
+        <button onClick={handleWatering} className="button button-primary">
+          I Watered This Plant!
+        </button>
+        <button onClick={handleDelete} className="button button-secondary">
+          Delete
+        </button>
+      </div>
     </div>
   );
 }

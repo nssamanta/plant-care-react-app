@@ -1,14 +1,15 @@
+import styles from './About.module.css';
+
 function About() {
   return (
-    <div>
-      <h2>About This App</h2>
+    <div className={styles.textCard}>
+      <h2>What is Plant Care?</h2>
       <p>
         This app is designed to help keep your house plants hydrated, happy, and
         healthy.
       </p>
       <p>
-        By tracking the name, watering frequency, and last watered
-        date of your plant, the app automatically calculates a status to show you exactly when to water your plant again. 
+       You can keep track of your plant's name, watering frequency, and last watered date. The app will automatically calculate a status to show exactly when it's time to water your plants again so you never forget.
       </p>
     </div>
   );

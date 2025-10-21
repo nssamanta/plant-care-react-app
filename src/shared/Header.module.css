@@ -1,0 +1,36 @@
+.header {
+  background: var(--primary-color);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  color: white;
+  margin: 0;
+}
+
+.nav {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navLink {
+  color: white;
+  text-decoration: none;
+  font-family: var(--heading-font);
+  font-size: 1.1rem;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+  transition: border-bottom 0.2s ease-in-out;
+}
+
+.navLink:hover {
+  color: var(--secondary-color);
+}
+
+.navLink:global(.active) {
+  color: var(--secondary-color);
+  border-bottom: 2px solid var(--secondary-color);
+}

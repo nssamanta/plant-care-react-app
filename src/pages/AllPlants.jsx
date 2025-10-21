@@ -1,5 +1,7 @@
 import PlantCard from '../shared/PlantCard';
 import PlantsViewForm from '../features/PlantsViewForm';
+import styles from './AllPlants.module.css';
+
 
 function AllPlants({
   plants,
@@ -13,7 +15,7 @@ function AllPlants({
   setQueryString,
 }) {
   return (
-    <div>
+    <div className="pageWrapper">
       <PlantsViewForm
         sortDirection={sortDirection}
         setSortDirection={setSortDirection}
@@ -22,7 +24,6 @@ function AllPlants({
         queryString={queryString}
         setQueryString={setQueryString}
       />
-      <h2>My Plant Collection</h2>
       {error && <p>Error: {error}</p>}
 
       {isLoading && <p>Loading plants...</p>}
@@ -32,7 +33,7 @@ function AllPlants({
         (plants.length === 0 ? (
           <p>No plants yet. Time to add your first one!</p>
         ) : (
-          <div className="plantGrid">
+          <div className={styles.plantGrid}>
             {plants.map(plant => (
               <PlantCard key={plant.id} plant={plant} />
             ))}
