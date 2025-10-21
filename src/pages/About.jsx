@@ -9,7 +9,9 @@ function About() {
         healthy.
       </p>
       <p>
-       You can keep track of your plant's name, watering frequency, and last watered date. The app will automatically calculate a status to show exactly when it's time to water your plants again so you never forget.
+        You can keep track of your plant's name, watering frequency, and last
+        watered date. The app will automatically calculate a status to show
+        exactly when it's time to water your plants again so you never forget.
       </p>
     </div>
   );

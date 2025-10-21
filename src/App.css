@@ -20,29 +20,34 @@ body {
   line-height: 1.6;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--heading-font);
   color: var(--primary-color);
 }
 
-input[type="text"],
-input[type="number"],
-input[type="date"],
+input[type='text'],
+input[type='number'],
+input[type='date'],
 textarea,
 select {
-  font-family: var(--body-font); 
+  font-family: var(--body-font);
   font-size: 1rem;
   color: var(--text-color);
   background-color: #fff;
   padding: 0.75rem;
   border: 1px solid #ccc;
   border-radius: 6px;
-  width: 100%; 
+  width: 100%;
   margin-top: 0.25rem;
 }
 
 textarea {
-  resize: vertical; 
+  resize: vertical;
   min-height: 80px;
 }
 
@@ -63,7 +68,7 @@ textarea {
 }
 
 .button-primary:hover {
-  background-color: #218278; 
+  background-color: #218278;
 }
 
 .button-secondary {

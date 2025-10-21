@@ -1,6 +1,6 @@
 .formRow {
   display: flex;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
   background: #fff;
@@ -17,11 +17,11 @@
 
 .formSection label {
   font-weight: bold;
-  white-space: nowrap; 
+  white-space: nowrap;
 }
 
 .formRow input,
 .formRow select {
-  width: auto; 
+  width: auto;
   padding: 0.5rem;
 }

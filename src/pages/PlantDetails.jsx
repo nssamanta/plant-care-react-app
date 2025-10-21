@@ -20,7 +20,7 @@ function getWateringStatus(lastWatered, frequency) {
   if (daysDifference > 1) {
     return `Water in ${daysDifference} days.`;
   } else if (daysDifference === 1) {
-    return 'Water tommorow.';
+    return 'Water tomorrow.';
   } else if (daysDifference === 0) {
     return 'Water Today! 💧';
   } else {
@@ -34,7 +34,6 @@ function PlantDetails({ onDeletePlant, onUpdatePlant }) {
   const [plant, setPlant] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [editingField, setEditingField] = useState(null);
   const [editValue, setEditValue] = useState('');
 

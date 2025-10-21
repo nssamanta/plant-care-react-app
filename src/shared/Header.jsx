@@ -8,13 +8,13 @@ function Header({ title }) {
         <h1 className={styles.title}>{title}</h1>
       </div>
       <nav className={styles.nav}>
-        <NavLink className={styles.navLink} to="/" >
+        <NavLink className={styles.navLink} to="/">
           Home
         </NavLink>
-        <NavLink className={styles.navLink} to="/plants" >
+        <NavLink className={styles.navLink} to="/plants">
           MyPlants
         </NavLink>
-        <NavLink className={styles.navLink}  to="/about" >
+        <NavLink className={styles.navLink} to="/about">
           About
         </NavLink>
       </nav>
