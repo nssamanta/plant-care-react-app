@@ -1,18 +1,20 @@
 import { NavLink } from 'react-router';
+import styles from './Header.module.css';
+
 function Header({ title }) {
   return (
-    <header>
+    <header className={styles.header}>
       <div>
-        <h1>{title}</h1>
+        <h1 className={styles.title}>{title}</h1>
       </div>
-      <nav className="nav">
-        <NavLink to="/" className="home">
+      <nav className={styles.nav}>
+        <NavLink className={styles.navLink} to="/" >
           Home
         </NavLink>
-        <NavLink to="/plants" className="allplants">
+        <NavLink className={styles.navLink} to="/plants" >
           MyPlants
         </NavLink>
-        <NavLink to="/about" className="about">
+        <NavLink className={styles.navLink}  to="/about" >
           About
         </NavLink>
       </nav>
